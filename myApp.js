@@ -4,18 +4,13 @@ const app = express();
 app.use(helmet.hidePoweredBy());
 app.use(helmet.frameguard({action: 'deny'}))
 
+//app.use(helmet.xssFilter())
 
 
-
-
-
-
-
-
-
-
-
-
+app.use(express.urlencoded({extended: true}));
+app.post('/test', (req, res) =>{
+    res.send('Input recived: ' + req.body.input);
+});
 
 
 
@@ -48,6 +43,7 @@ app.use(helmet.frameguard({action: 'deny'}))
 
 module.exports = app;
 const api = require('./server.js');
+const res = require('express/lib/response.js');
 app.use(express.static('public'));
 app.disable('strict-transport-security');
 app.use('/_api', api);
